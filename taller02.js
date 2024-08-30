@@ -13,16 +13,15 @@ console.log(findMax([8, 17, 18, -30, -19]));
 
 //Punto 2
 function includes(lista, numero){
-let b = Boolean(false);
     for (let i = 0; i < lista.length; i++) {
         if(numero == lista[i]){
-            b = Boolean(true);
+            return true;
         }   
     }
-    return b;
+    return false;
 }
 
-console.log(includes([3, 17, -1, 4, -19], 4));
+console.log(includes([3, 17, -1, 4, -19], 5));
 
 //Punto 3
 function sum(lista){
@@ -38,12 +37,15 @@ console.log(sum([3, 17, -1, 4, -19]));
 //Punto 4
 
 function missingNumbers(lista){
-    let ultNum = lista[lista.length - 1];
-    for (let i = 1; i < ultNum; i++) {
-        const element = lista[i];
-        
+    let priNum = lista.sort()[0];
+    let ultNum = lista.sort()[lista.length - 1];
+    let numFaltantes = [];
+    for (let i = priNum; i < ultNum; i++) {
+        if (includes(lista, i) == false){
+            numFaltantes.push(i);
+        }       
     }
-    return ultNum
+    return numFaltantes;
 }
 
 console.log(missingNumbers([7, 2, 4, 6, 3, 9]));
