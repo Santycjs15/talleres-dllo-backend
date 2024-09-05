@@ -36,5 +36,32 @@ function twoSum(lista, numero){
 
 console.log(twoSum([2, 2, 7, 9, 11], 4));
 
-//
+//Punto 3
+
+function conversionRomana(roman){
+    const numRomanos = {
+        "I" : 1,
+        "V" : 5,
+        "X" : 10,
+        "L" : 50,
+        "C" : 100,
+        "D" : 500,
+        "M" : 1000,
+    }
+
+    let anterior, resultado = 0;
+
+    for (let i = roman.length -1 ; i >= 0 ; i--) {
+        const ultimo = numRomanos[roman.charAt(i)];
+        if(ultimo < anterior){
+            resultado = resultado - ultimo;
+        }else{
+            resultado = resultado+ultimo;
+        }
+        anterior = ultimo;
+    }
+    return resultado
+}
+
+console.log(conversionRomana("MMXXIV"));
 
