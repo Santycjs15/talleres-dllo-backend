@@ -25,15 +25,16 @@ console.log(desglosarString('murcielagos','consonantes'));
 function twoSum(lista, numero){
     let indices = [];
     for (let i = 0; i < lista.length; i++) {
-        for (let j = lista[i+1]; j < lista.length; j++) {
-            if(lista[i] + lista[j] == numero){
+        for (let j = i+1; j < lista.length; j++) {
+            if(lista[i] + lista[j] === numero){
                 indices.push(i, j);
-            }      
-            return indices;      
+            }           
         }
     }
     return indices;
 }
 
-console.log(twoSum([2, 7, 11, 15], 9));
+console.log(twoSum([2, 2, 7, 9, 11], 4));
+
+//
 
