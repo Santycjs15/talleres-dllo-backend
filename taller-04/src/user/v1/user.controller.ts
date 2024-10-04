@@ -23,12 +23,9 @@ async function pilotoporHobby(req: Request, res: Response) {
       return res.status(404).json({ message: `No se encontraron pilotos con el hobby: ${hobby}` });
     }
 
-    // Devuelve solo los nombres de los pilotos que tienen el hobby
-    const userNames = filteredUsers.map(user => user.name);
-    res.status(200).json({
-      message: `Users with hobby: ${hobby}`,
-      users: userNames,
-    });
+    
+    const userslist = filteredUsers.map(user => user);
+    res.status(200).json({userslist});
   } catch (err) {
     res.status(500).json({ message: "Error al obtener pilotos por hobby" });
   }
@@ -36,20 +33,31 @@ async function pilotoporHobby(req: Request, res: Response) {
 
 //Punto 2:  retorne si el piloto con el id enviado existe.
 
-// Verificar si el id del piloto existe
+
 async function IdExiste(req: Request, res: Response): Promise<Response> {  
   try {
-    const { id } = req.params;
+    const { id } = req.query;  // Capturar el id desde los parámetros de consulta
+    if (!id) {
+      return res.status(400).json({ exists: false, message: "El parámetro 'id' es requerido." });
+    }
+
     const users = await readUserAction();
 
     // Convierte el id a número ya que en datos.json los ids son numéricos
-    const user = users.find((user: User) => user.id === Number(id));
+    const numericId = Number(id);
 
-    if (!user) {
-      return res.status(404).json({ message: `El piloto con el id: ${id} no existe` });
+    // Verifica que la conversión a número es válida
+    if (isNaN(numericId)) {
+      return res.status(400).json({ exists: false, message: `El id: ${id} no es un número válido` });
     }
 
-    return res.status(200).json({ message: `El piloto con el id: ${id} sí existe` });
+    const user = users.find((user: User) => user.id === numericId);
+
+    if (!user) {
+      return res.status(200).json({ exists: false });  
+    }
+
+    return res.status(200).json({ exists: true });  
   } catch (err) {
     return res.status(500).json({ message: "Error al buscar piloto por id" });
   }
@@ -101,8 +109,7 @@ async function porFaccion(req:Request, res:Response): Promise<Response> {
       return res.status(404).json({ message: `No se encontraron pilotos en la facción: ${faction}` });
     }
 
-    const userNames = factionUsers.map(user => user.name);
-    return res.status(200).json({ message: `Pilotos en la facción ${faction}`, users: userNames });
+    return res.status(200).json({ message: `Pilotos en la facción ${faction}`, users });
   } catch (err) {
     return res.status(500).json({ message: "Error al buscar pilotos por facción" });
   }  
