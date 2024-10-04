@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { pilotoporHobby, IdExiste, ExperienciaTotal, porFaccion } from "./user.controller";
-import readUsers from "./read.user.action";
+import { pilotoporHobby, IdExiste, ExperienciaTotal, porFaccion, registrarUsuario } from "./user.controller";
 
 // INIT ROUTES
 const userRoutes = Router();
 
 // Obtener todos los usuarios
-userRoutes.get("/", readUsers);
+
+userRoutes.post("/", registrarUsuario);
 
 // Obtener usuarios por hobby desde los parámetros de la URL
 userRoutes.get("/hobby", pilotoporHobby);

@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import readUserAction from "./read.user.action";
+import { saveUserAction } from "./save.user.action";
 import { User } from "./user.model";
+
+
+const jsonFilePath = "./datos.json"; 
+
 
 // Punto 1: Obtener pilotos por hobby
 async function pilotoporHobby(req: Request, res: Response) {
@@ -103,11 +108,41 @@ async function porFaccion(req:Request, res:Response): Promise<Response> {
   }  
 }
 
+// Punto 5 : realice el registro de un usuario nuevo a la "base de datos". la base de datos es un archivo JSON llamado "datos.json".
+
+// Función para registrar un nuevo usuario
+async function registrarUsuario(req: Request, res: Response): Promise<Response> {
+  try {
+    const newUser: User = req.body;
+
+    // Validar los campos necesarios
+    if (!newUser.id || !newUser.name || !newUser.hobbies || !newUser.years || !newUser.team || !newUser.faction) {
+      return res.status(400).json({ message: "Todos los campos son obligatorios." });
+    }
+
+    // Leer los usuarios existentes
+    const users = await readUserAction();
+
+    // Verificar si el id ya existe
+    const userExists = users.find((user: User) => user.id === newUser.id);
+    if (userExists) {
+      return res.status(400).json({ message: `El id: ${newUser.id} ya existe` });
+    }
+
+    // Guardar el nuevo usuario
+    await saveUserAction(newUser);
+
+    return res.status(201).json({ message: "Usuario registrado exitosamente", user: newUser });
+  } catch (err) {
+    return res.status(500).json({ message: "Error al registrar el usuario", error: (err as Error).message });
+  }
+}
 
 // EXPORT CONTROLLER FUNCTIONS
 export { pilotoporHobby };
 export { ExperienciaTotal };
 export { IdExiste };
 export { porFaccion };
+export { registrarUsuario };
 
 
