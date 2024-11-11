@@ -6,7 +6,7 @@ export const updateUserById = async (userId: string, updates: Partial<IUser>): P
   return user;
 };
 
-export const desactivateUserById = async (userId: string): Promise<void> => {
+export const disableUserById = async (userId: string): Promise<void> => {
   const user = await User.findByIdAndUpdate(userId, { isActive: false });
   if (!user) throw new Error('User not found');
 };

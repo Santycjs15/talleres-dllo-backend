@@ -1,4 +1,4 @@
-import { updateUserById, desactivateUserById } from '../services/user.action';
+import { updateUserById, disableUserById } from '../services/user.action';
 
 export const updateUserController = async (userId: string, updates: object) => {
     const updatedUser = await updateUserById(userId, updates);
@@ -6,5 +6,5 @@ export const updateUserController = async (userId: string, updates: object) => {
 };
 
 export const desactivateUserController = async (userId: string) => {
-    await desactivateUserById(userId);
+    await disableUserById(userId);
 };

@@ -6,27 +6,27 @@ export const createBookAction = async (bookData: Partial<IBook>): Promise<IBook>
     return book;
 };
 
-export const updateBookAction = async (bookId: string, updates: Partial<IBook>): Promise<IBook | null> => {
+export const updateBook = async (bookId: string, updates: Partial<IBook>): Promise<IBook | null> => {
     const book = await Book.findByIdAndUpdate(bookId, updates, { new: true });
     return book;
 };
 
-export const deleteBookAction = async (bookId: string): Promise<IBook | null> => {
+export const deactivateBook = async (bookId: string): Promise<IBook | null> => {
     const book = await Book.findByIdAndUpdate(bookId, { isActive: false }, { new: true });
     return book;
 };
 
-export const getBookAction = async (bookId: string): Promise<IBook | null> => {
+export const getBook = async (bookId: string): Promise<IBook | null> => {
     const book = await Book.findOne({ _id: bookId, isActive: true });
     return book;
 };
 
-export const getBooksAction = async (filters: any): Promise<IBook[]> => {
+export const getBooks = async (filters: any): Promise<IBook[]> => {
     const books = await Book.find(filters);
     return books;
 };
 
-export const reserveBookAction = async (bookId: string, userId: string): Promise<IBook | null> => {
+export const reserveBook = async (bookId: string, userId: string): Promise<IBook | null> => {
     const book = await Book.findById(bookId);
     if (!book || book.isActive == false || !book.isAvailable) return null;
 

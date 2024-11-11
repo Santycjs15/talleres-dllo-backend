@@ -1,11 +1,11 @@
 // book.controller.ts
 import {
     createBookAction,
-    updateBookAction,
-    deleteBookAction,
-    getBookAction,
-    getBooksAction,
-    reserveBookAction
+    updateBook,
+    deactivateBook,
+    getBook,
+    getBooks,
+    reserveBook
 } from '../services/book.action';
 
 export const createBookController = async (bookData: object) => {
@@ -13,21 +13,22 @@ export const createBookController = async (bookData: object) => {
 };
 
 export const updateBookController = async (bookId: string, updates: object) => {
-    return await updateBookAction(bookId, updates);
+    return await updateBook(bookId, updates);
 };
 
-export const deleteBookController = async (bookId: string) => {
-    return await deleteBookAction(bookId);
+export const deactivateBookController = async (bookId: string) => {
+    return await deactivateBook(bookId);
 };
 
 export const getBookController = async (bookId: string) => {
-    return await getBookAction(bookId);
+    return await getBook(bookId);
 };
 
 export const getBooksController = async (filters: any) => {
-    return await getBooksAction(filters);
+    return await getBooks(filters);
 };
 
 export const reserveBookController = async (bookId: string, userId: string) => {
-    return await reserveBookAction(bookId, userId);
+    return await reserveBook(bookId, userId);
 };
+

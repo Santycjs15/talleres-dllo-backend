@@ -3,7 +3,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import {
     createBookController,
     updateBookController,
-    deleteBookController,
+    deactivateBookController,
     getBookController,
     getBooksController,
     reserveBookController
@@ -46,7 +46,7 @@ async function UpdateBook(req: AuthRequest, res: Response) {
 async function DeleteBook(req: AuthRequest, res: Response) {
     try {
         const { bookId } = req.params;
-        const book = await deleteBookController(bookId);
+        const book = await deactivateBookController(bookId);
 
         if (!book) {
             return res.status(404).json({ message: 'Book not found' });
