@@ -7,13 +7,8 @@ import {
     getBookController,
     getBooksController,
     reserveBookController
-} from '../controllers/book.controller';
-import {
-    createBookPermissionMiddleware,
-    updateBookPermissionMiddleware,
-    deleteBookPermissionMiddleware
-} from '../middlewares/permissionMiddleware';
-import { authMiddleware } from '../middlewares/authMiddleware';
+} from './book.controller';
+import { authMiddleware } from '../auth/authMiddleware';
 import { AuthRequest } from '../custom';
 
 const router = Router();
@@ -111,6 +106,34 @@ async function ReserveBook(req: AuthRequest, res: Response) {
         res.status(500).json({ message: 'Failed to reserve book', error });
     }
 }
+
+const updateBookPermissionMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+
+    if (req.user?.hasPermission('edit_book')) {
+        return next();
+    }
+
+    return res.status(403).json({ message: 'Acceso denegado' });
+};
+
+const deleteBookPermissionMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+
+    if (req.user?.hasPermission('delete_book')) {
+        return next();
+    }
+
+    return res.status(403).json({ message: 'Acceso denegado' });
+};
+
+const createBookPermissionMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+
+    // Permitir si el usuario tiene permiso de crear libros
+    if (req.user?.hasPermission('create_book')) {
+        return next();
+    }
+
+    return res.status(403).json({ message: 'Acceso denegado' });
+};
 
 // Declaración de endpoints
 router.post('/create', authMiddleware, createBookPermissionMiddleware, CreateBook);

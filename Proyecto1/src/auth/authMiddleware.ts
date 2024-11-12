@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model';
+import User from '../user/user.model';
 import { AuthRequest } from '../custom';
 
 export const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {

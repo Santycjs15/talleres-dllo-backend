@@ -1,4 +1,4 @@
-import Book, { IBook } from '../models/book.model';
+import Book, { IBook } from '../book/book.model';
 
 export const createBookAction = async (bookData: Partial<IBook>): Promise<IBook> => {
     const book = new Book(bookData);

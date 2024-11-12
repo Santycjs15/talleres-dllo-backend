@@ -1,6 +1,6 @@
 // auth.action.ts
 import jwt from 'jsonwebtoken';
-import User, { IUser } from '../models/user.model';
+import User, { IUser } from '../user/user.model';
 
 export const registerUserAction = async (userData: Partial<IUser>) => {
   const user = new User(userData);

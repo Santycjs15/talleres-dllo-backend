@@ -1,4 +1,4 @@
-import User, { IUser } from '../models/user.model';
+import User, { IUser } from './user.model';
 
 export const updateUserById = async (userId: string, updates: Partial<IUser>): Promise<IUser | null> => {
   const user = await User.findByIdAndUpdate(userId, updates, { new: true, runValidators: true }).select('-password');

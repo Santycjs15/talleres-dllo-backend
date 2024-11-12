@@ -6,7 +6,7 @@ import {
     getBook,
     getBooks,
     reserveBook
-} from '../services/book.action';
+} from '../book/book.action';
 
 export const createBookController = async (bookData: object) => {
     return await createBookAction(bookData);

@@ -2,8 +2,8 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import cors from "cors";
-import userRoutes from './routes/user.routes';
-import bookRoutes from './routes/books.routes';
+import userRoutes from './user/user.routes';
+import bookRoutes from './book/books.routes';
 import connectDB from "./config/db";
 
 const PORT = process.env.PORT || 8080;

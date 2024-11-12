@@ -1,5 +1,5 @@
 // auth.controller.ts
-import { registerUserAction, loginUserAction } from '../services/auth.action';
+import { registerUserAction, loginUserAction } from './auth.action';
 
 export const registerController = async (userData: { name: string; email: string; password: string }) => {
   const user = await registerUserAction(userData);

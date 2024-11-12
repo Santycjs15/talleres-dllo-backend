@@ -1,8 +1,8 @@
-import { Router, Response } from 'express';
-import { updateUserController, desactivateUserController } from '../controllers/user.controller';
-import { authMiddleware } from '../middlewares/authMiddleware';
-import { updateUserPermissionMiddleware, deleteUserPermissionMiddleware } from '../middlewares/permissionMiddleware';
+import { Router, Response, NextFunction } from 'express';
+import { updateUserController, desactivateUserController } from '../user/user.controller';
+import { authMiddleware } from '../auth/authMiddleware';
 import { AuthRequest } from '../custom';
+
 
 const userRoutes = Router();
 
@@ -40,6 +40,28 @@ async function DesactivateUser(request: AuthRequest, response: Response) {
     });
   }
 }
+
+const updateUserPermissionMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+  const userIdFromParams = req.params.userId || req.user?.id;
+  const userIdFromToken = req.user?.id;
+
+  if (req.user?.hasPermission('edit_user') || userIdFromToken === userIdFromParams) {
+      return next();
+  }
+
+  return res.status(403).json({ message: 'Acceso denegado' });
+};
+
+const deleteUserPermissionMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+  const userIdFromParams = req.params.userId || req.user?.id;
+  const userIdFromToken = req.user?.id;
+
+  if (req.user?.hasPermission('delete_user') || userIdFromToken === userIdFromParams) {
+      return next();
+  }
+
+  return res.status(403).json({ message: 'Acceso denegado' });
+};
 
 userRoutes.put('/update/:userId?', authMiddleware, updateUserPermissionMiddleware, UpdateUser);
 userRoutes.delete('/desactivate/:userId?', authMiddleware, deleteUserPermissionMiddleware, DesactivateUser);
